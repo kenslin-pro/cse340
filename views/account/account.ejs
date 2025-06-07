@@ -1,0 +1,25 @@
+<div>
+  <div>
+    <h1><%-title-%></h1>
+    <%- messages() %>
+  </div>
+  <div>
+    <h2>Welcome <%- user.account_firstname %></h2>
+    <p>You are logged in!</p>
+
+    <% if (user.account_type === 'Client') { %> <% } else { %>
+    <!-- Admins, Employees, and Owners can see Manage Inventory -->
+    <p><a href="/inv/">Manage Inventory</a></p>
+
+    <% if (user.account_type === 'Owner') { %>
+    <p><a href="/account/admin">Manage Users</a></p>
+    <% } %> <% } %>
+
+    <!-- All logged-in users can update their account -->
+    <p>
+      <a href="/account/edit/<%- user.account_id %>"
+        >Update account information</a
+      >
+    </p>
+  </div>
+</div>
