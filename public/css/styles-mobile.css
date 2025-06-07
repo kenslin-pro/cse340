@@ -1,0 +1,170 @@
+@media screen and (max-width: 1350px) {
+
+  #inv_page__detail img {
+    width: 70vw;
+    height: 40vw;
+    transform: scale(1.0);
+    transition: transform 1s
+  }
+
+
+  fieldset {
+    max-width: 300px;
+  }
+
+}
+
+
+/* mobile css */
+@media screen and (max-width: 850px) {
+
+  #inv-display {
+    padding: 0;
+    justify-content: center;
+  }
+
+  #inv-display li>div {
+    border: 1px solid black;
+    border-radius: 8px;
+    height: 275px;
+    width: 400px;
+  }
+
+  .class_lists__image img {
+    width: 400px;
+    height: 210px;
+  }
+
+  #inv_page__detail img {
+    width: 70vw;
+    height: 50vw;
+    transform: scale(1.0);
+    transition: transform 1s
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+}
+
+
+@media screen and (max-width: 600px) {
+
+  #index-hero h1 {
+    font-size: 6vw;
+  }
+
+
+  body {
+    display: flex;
+    justify-content: center;
+    background-image: unset
+      /* height: 100vh; */
+
+  }
+
+  body>div {
+    border: 2px solid var(--secondary-color);
+    border-radius: 5px;
+    padding: 1rem;
+    /* max-width: 100vw; */
+    /* height: 90vh; */
+    width: 98vw;
+    background-color: var(--white-color);
+  }
+
+  nav {
+    justify-content: flex-start;
+  }
+
+  nav ul {
+    justify-content: flex-start;
+    /* padding: 1rem; */
+
+  }
+
+  nav li a {
+    font-size: .7em;
+  }
+
+  #index-content {
+    flex-direction: column;
+  }
+
+  .index-car-upgrades {
+
+    order: 2;
+  }
+
+  .index-car-reviews li {
+    padding: 0;
+    margin: 0;
+  }
+
+  .index-car-reviews {
+    order: 1;
+  }
+
+  .index-car-reviews {
+    margin: 0;
+  }
+
+  .index-car-reviews ul {
+    margin-left: 1rem;
+  }
+
+  .index-upgrade-card>div {
+    min-width: unset;
+  }
+
+  #index-hero-description {
+    left: 0;
+  }
+
+  #index-hero-description p {
+    font-size: 1rem;
+  }
+
+  #index-hero-image-container img {
+    max-width: 250px;
+  }
+
+  .index-car-upgrade-cards {
+    justify-content: flex-start;
+    align-items: flex-start;
+
+  }
+
+  .index-upgrade-card {
+    justify-content: flex-end;
+    align-items: flex-start;
+  }
+
+  #inv_page__detail img {
+    width: 80vw;
+    height: 50vw;
+    transform: scale(1.0);
+    transition: transform 1s
+  }
+
+  .inv__image,
+  .inv__details h2,
+  main>h1 {
+    align-self: center;
+  }
+
+  #inv-display li>div {
+    width: 350px;
+  }
+
+  .class_lists__image img {
+    width: 100%;
+    height: 20vh;
+    object-fit: stretch;
+
+  }
+}
