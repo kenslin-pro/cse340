@@ -1,0 +1,16 @@
+<!-- management view -->
+<% if (title) { %>
+<h1><%= title %></h1>
+<%- messages() %>
+<a href="/inv/addClass"><p>Add classification</p></a>
+<a href="/inv/addInv"><p>Add Inventory</p></a>
+<h2>Manage Inventory</h2>
+<p>Select a classification from the list to view classification's items</p>
+<select id="classificationList">
+  <%- classDrop %>
+</select>
+<table id="inventoryDisplay"></table>
+<noscript>JavaScript must be enabled to use this page.</noscript>
+<script src="../../js/inventory.js"></script>
+
+<% } else { res.redirect('/') } %>

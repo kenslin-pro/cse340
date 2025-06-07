@@ -1,30 +1,31 @@
+
 /* ******************************************
  * This server.js file is the primary file of the 
  * application. It is used to control the project.
  *******************************************/
-/******************************************
+/* ***********************
  * Require Statements
- ******************************************/
-const session = require("express-session")
-const pool = require('./database/')
+ *************************/
+require("dotenv").config();
+// console.log("DATABASE_URL:", process.env.DATABASE_URL); // Check if URL is loading
 const express = require("express")
 const expressLayouts = require("express-ejs-layouts")
-require("dotenv").config() 
-const app = express()  
-const staticRoutes = require("./routes/static")
-const baseController = require("./controllers/baseController")
-const inventoryRoute = require("./routes/inventoryRoute")
-const utilities = require("./utilities/index")
-const errorRoute = require('./routes/errorRoute'); // Import the error route
-const accountRoute = require('./routes/accountRoute');
-const bodyParser = require("body-parser")
-/******************************************
- * View Engine and Templates
- ******************************************/
-app.set("view engine", "ejs")
-app.use(expressLayouts)
-app.set("layout", "./layouts/layout")
 
+const app = express()
+const session = require("express-session")
+const pool = require('./database/')
+const bodyParser = require("body-parser")
+const cookieParser = require("cookie-parser")
+
+
+const static = require("./routes/static")
+
+const catchErrorsRoute = require("./routes/errorRoute.js")
+const baseController = require("./controllers/baseController")
+const utilities = require("./utilities/index.js")
+
+
+console.log("DATABASE_URL:", process.env.DATABASE_URL); // Check if URL is loading
 /* ***********************
  * Middleware
  * ************************/
@@ -46,53 +47,65 @@ app.use(function(req, res, next){
   next()
 })
 
-/******************************************
- * Middleware y Rutas
- ******************************************/
-app.use(express.static('public'));
-app.use(staticRoutes)
-app.use('/account', accountRoute);
+
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
+app.use(bodyParser.urlencoded({extended: true}))// for parsing application/x-www-form-urlencoded
+
+app.use((req, res, next) => {
+  console.log(`Incoming request: ${req.method} ${req.url}`);
+  next();
+});
+
+app.use(cookieParser())
+
+app.use(utilities.checkJWTToken)
 
 
-// Index route
-app.get("/", utilities.handleErrors(baseController.buildHome))
-
-// Inventory routes
-app.use("/inv", inventoryRoute)
-
-// File Not Found Route - must be last route in list
-app.use(async (req, res, next) => {
-  next({status: 404, message: 'Sorry, we appear to have lost that page.'})
-})
-
-
-/******************************************
- * Local Server Information
- ******************************************/
-
-const port = process.env.PORT || 5500
-const host = process.env.HOST || "localhost"
 
 /* ***********************
-* Express Error Handler
-* Place after all other middleware
-*************************/
-app.use(async (err, req, res, next) => {
-  let nav = await utilities.getNav()
-  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
-  if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
-  res.render("errors/error", {
-    title: err.status || 'Server Error',
-    message,
-    nav
-  })
-})
+ * View Engine and Templates
+ *************************/
 
-/******************************************
+app.set("view engine", "ejs")
+app.use(expressLayouts)
+app.set("layout", "./layouts/layout") // not at views root - sets layout filespace
+
+/* ***********************
+ * Routes
+ *************************/
+
+app.use(static)
+// app.use((req,res,next) => {console.log("incoming route url: ", req.url)})
+
+app.get("/", utilities.handleErrors(baseController.buildHome))
+
+app.use("/inv", require("./routes/inventoryRoute.js"))
+
+app.use("/account", require("./routes/accountRoute.js"))
+
+// app.get("/", utilities.handleErrors((req,res) => 
+//   {res.render("index", {title: "Home"})}
+// ))
+
+/* ****************************************
+ * Middleware For Handling Errors
+ * Do not place anything after this.
+ * wrap utilities.handleErrors for General Error Handling
+ **************************************** */
+app.use(catchErrorsRoute);
+
+/* ***********************
+ * Local Server Information
+ * Values from .env (environment) file
+ *************************/
+const port = process.env.PORT
+const host = process.env.HOST
+
+
+/* ***********************
  * Log statement to confirm server operation
- ******************************************/
+ *************************/
 app.listen(port, () => {
-  console.log(`App listening on http://${host}:${port}`)
+  console.log(`app listening on ${host}:${port}`)
 })

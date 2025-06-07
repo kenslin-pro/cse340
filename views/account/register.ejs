@@ -1,76 +1,73 @@
-<!DOCTYPE html>
-<html lang="en">
-  <%- include("../partials/head.ejs") %>
-  <body>
-    <main>
-      <h1><%= title %></h1>
-
-      <!-- Mostrar mensaje flash si existe -->
-
-      <!-- Registration form -->
-      <form action="/account/register" method="post">
-        <label for="first-name">First Name:</label>
-        <input
-          type="text"
-          id="first-name"
-          name="first-name"
-          required
-          data-trail="first-name"
-        />
-
-        <label for="last-name">Last Name:</label>
-        <input
-          type="text"
-          id="last-name"
-          name="last-name"
-          required
-          data-trail="last-name"
-        />
-
-        <label for="email">Email Address:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          required
-          data-trail="email"
-        />
-
-        <label for="password">Password:</label>
-        <div class="password-wrapper">
-          <input
-            type="password"
-            id="password"
-            name="password"
-            required
-            data-trail="password"
-            pattern="(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{12,})"
-            title="Password must be at least 12 characters long and contain at least one uppercase letter, one number, and one special character."
-          />
-          <button
-            type="button"
-            id="toggle-password"
-            aria-label="Toggle Password Visibility"
-          >
-            👁
-          </button>
+<div>
+  <div>
+    <h1><%-title-%></h1>
+    <%- messages() %>
+  </div>
+  <div>
+    <% if (errors) { %>
+    <ul class="notice">
+      <% errors.array().forEach(error=> { %>
+      <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+    <% } %>
+    <form action="/account/register" method="post" id="account_registration">
+      <fieldset>
+        <div class="form_part">
+          <label>
+            <p>First name</p>
+            <input
+              type="text"
+              name="account_firstname"
+              id="accountFirstname"
+              required
+              value="<%= locals.account_firstname %>"
+            />
+            <!-- <input name="account_firstname" type="text" > -->
+          </label>
         </div>
-
-        <label for="confirm-password">Confirm Password:</label>
-        <input
-          type="password"
-          id="confirm-password"
-          name="confirmPassword"
-          required
-          data-trail="confirmPassword"
-        />
-
-        <button type="submit">Register</button>
-      </form>
-
-      <!-- Link to login -->
-      <p>Already have an account? <a href="/account/login">Login Here</a></p>
-    </main>
-    <script src="/js/script.js"></script>
-  </body>
-</html>
+        <div class="form_part">
+          <label>
+            <p>Last name</p>
+            <input
+              name="account_lastname"
+              type="text"
+              id="accountLastname"
+              value="<%= locals.account_lastname %>"
+            />
+          </label>
+        </div>
+        <div class="form_part">
+          <label>
+            <p>Email address</p>
+            <input
+              name="account_email"
+              type="email"
+              required
+              pattern="^[\w.-]+@[\w.-]+\.[a-zA-Z]{2,3}$"
+              id="accountEmail"
+              value="<%= locals.account_email %>"
+            />
+          </label>
+        </div>
+        <div class="form_part">
+          <label>
+            <p>Password</p>
+            <input
+              name="account_password"
+              id="password"
+              type="password"
+              required
+              pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+            /><br /><span id="showPass">Show Password</span>
+            <span class="form_instruct"
+              >Passwords must be at least 12 characters and contain at least 1
+              number, 1 capital letter and 1 special character</span
+            >
+          </label>
+        </div>
+        <button class="register_button">Register</button>
+      </fieldset>
+    </form>
+  </div>
+</div>

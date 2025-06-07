@@ -1,0 +1,35 @@
+<!-- add vehicle class view -->
+<div>
+  <% if (title) { %>
+  <h1><%= title %></h1>
+  <%- messages() %> <% } else { res.redirect('/') } %>
+</div>
+<% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error=> { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
+
+<form action="/inv/addClass" method="post" id="add_class">
+  <fieldset>
+    <h2>Classification Name</h2>
+    <div>
+      <label>
+        <span class="form_direct">
+          Enter the name of the new classification.</span
+        >
+        <span class="form_instruct"
+          >Classification cannot contain any spaces or special characters.</span
+        >
+        <input
+          name="classification_name"
+          type="text"
+          pattern="^[a-zA-Z0-9]+$"
+        />
+      </label>
+    </div>
+    <button>Add Classification</button>
+  </fieldset>
+</form>

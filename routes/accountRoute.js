@@ -1,21 +1,77 @@
-// Needed Resources 
-const express = require("express")
-const router = new express.Router() 
-const accountController = require ("../controllers/accountController")
+const express = require("express");
+const router = new express.Router();
+const utilities = require("../utilities/index.js");
+const accountController = require("../controllers/accountController");
+const regValidate = require("../utilities/account-validation");
 
-router.post('/register', accountController.handleRegister);
-router.post('/register', utilities.handleErrors(accountController.registerAccount))
-// Route for login
-router.get('/login', accountController.buildLogin);
+console.log("in accountRoute.js");
 
+router.get(
+  "/",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildAccount)
+);
+router.get("/login", utilities.handleErrors(accountController.buildLogin));
+router.post(
+  "/login",
+  regValidate.loginRules(),
+  regValidate.checkLoginData,
+  utilities.handleErrors(accountController.accountLogin)
+);
+router.get("/logout", utilities.handleErrors(accountController.accountLogout));
+router.get(
+  "/register",
+  utilities.handleErrors(accountController.buildRegister)
+);
+// Process the registration data
+router.post(
+  "/register",
+  regValidate.registationRules(),
+  regValidate.checkRegData,
+  utilities.handleErrors(accountController.registerAccount)
+);
 
-// Route for registration
-router.get('/register', accountController.buildRegister);
+router.get(
+  "/admin",
+  utilities.checkLogin,
+  utilities.checkOwnership,
+  utilities.handleErrors(accountController.buildAdminPanel)
+);
 
-// Middleware for errors
-router.use((err, req, res, next) => {
-    console.error(err.stack);
-    res.status(500).send('Something were wrong in the account.');
-  });
+router.post(
+  "/admin",
+  utilities.checkLogin,
+  utilities.checkOwnership,
+  (req, res, next) => {
+    console.log("Processing bulk update", req.body);
+    next();
+  },
+  regValidate.adminUpdateRules(),
+  regValidate.checkadminUpdate,
+  utilities.handleErrors(accountController.processAdminBulkUpdate)
+);
 
-  module.exports = router;
+router.get(
+  "/edit/:accountId",
+  utilities.checkLogin,
+  utilities.handleErrors(accountController.buildEditAccount)
+);
+
+router.post(
+  "/update",
+  utilities.checkLogin,
+  regValidate.editAccountRules(),
+  regValidate.checkAccountData,
+  utilities.handleErrors(accountController.updateAccountInfo)
+);
+
+router.post(
+  "/update/password",
+  utilities.checkLogin,
+  regValidate.accountPasswordRules(),
+  regValidate.checkAccountPassword,
+  utilities.handleErrors(accountController.updateAccountPassword)
+);
+
+module.exports = router;
+
