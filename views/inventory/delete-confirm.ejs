@@ -1,0 +1,93 @@
+<!-- add vehicle class view -->
+<div>
+  <% if (title) { %>
+  <h1><%= title %></h1>
+  <%- messages() %> <% } else { res.redirect('/') } %>
+</div>
+<% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error=> { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
+
+<form action="/inv/delete" method="post" id="deleteForm">
+  <fieldset>
+    <h2>
+      Review and confirm you would like to delete this vehicle. THIS ACTION
+      CANNOT BE UNDONE.
+    </h2>
+    <div class="form_part">
+      <label>
+        <p>Make</p>
+        <input
+          type="text"
+          readonly
+          name="inv_make"
+          id="invMake"
+          required
+          placeholder="Min of 3 characters"
+          pattern="^.{3,}$"
+          value="<%= locals.inv_make %>"
+        />
+        <!-- <input name="account_firstname" type="text" > -->
+      </label>
+    </div>
+    <div class="form_part">
+      <label>
+        <p>Model</p>
+        <input
+          type="text"
+          readonly
+          name="inv_model"
+          id="invModel"
+          required
+          placeholder="Min of 3 characters"
+          pattern="^.{3,}$"
+          value="<%= locals.inv_model %>"
+        />
+      </label>
+    </div>
+    <div class="form_part">
+      <label>
+        <p>Year</p>
+        <input
+          name="inv_year"
+          readonly
+          type="number"
+          required
+          id="invYear"
+          value="<%= locals.inv_year %>"
+          placeholder="4-digit year"
+          pattern="^/d{4}$"
+        />
+      </label>
+    </div>
+    <div class="form_part">
+      <label>
+        <p>Price</p>
+        <input
+          name="inv_price"
+          readonly
+          id="invPrice"
+          type="number"
+          step="0.01"
+          value="<%= locals.inv_price %>"
+          required
+          placeholder="Decimal or integer"
+          pattern="^\d+(\.\d{1,2})?$"
+        />
+      </label>
+    </div>
+    <input
+      name="inv_id"
+      readonly
+      id="invId"
+      type="hidden"
+      value="<%= locals.inv_id%>"
+      required
+    />
+    <button type="submit">Delete Vehicle</button>
+  </fieldset>
+</form>
