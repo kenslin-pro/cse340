@@ -60,6 +60,8 @@ app.use((req, res, next) => {
 app.use(cookieParser())
 
 app.use(utilities.checkJWTToken)
+app.use(express.static("public"));
+
 
 
 
