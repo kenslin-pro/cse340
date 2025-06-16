@@ -1,77 +1,55 @@
-const express = require("express");
-const router = new express.Router();
-const utilities = require("../utilities/index.js");
-const accountController = require("../controllers/accountController");
-const regValidate = require("../utilities/account-validation");
+const express = require("express")
+const router = new express.Router()
+const utilities = require("../utilities")
+const accountController = require("../controllers/accountController")
+const regValidate = require('../utilities/account-validation')
 
-console.log("in accountRoute.js");
+// Login and Register Views
+router.get("/login", utilities.handleErrors(accountController.buildLogin))
+router.get("/register", utilities.handleErrors(accountController.buildRegister))
 
-router.get(
-  "/",
-  utilities.checkLogin,
-  utilities.handleErrors(accountController.buildAccount)
-);
-router.get("/login", utilities.handleErrors(accountController.buildLogin));
-router.post(
-  "/login",
-  regValidate.loginRules(),
-  regValidate.checkLoginData,
-  utilities.handleErrors(accountController.accountLogin)
-);
-router.get("/logout", utilities.handleErrors(accountController.accountLogout));
-router.get(
-  "/register",
-  utilities.handleErrors(accountController.buildRegister)
-);
-// Process the registration data
+// Registration and Login POST
 router.post(
   "/register",
   regValidate.registationRules(),
   regValidate.checkRegData,
   utilities.handleErrors(accountController.registerAccount)
-);
+)
+router.post(
+  "/login",
+  regValidate.loginRules(),
+  regValidate.checkloginData,
+  utilities.handleErrors(accountController.accountLogin)
+)
 
+// Logged-in Account Dashboard
 router.get(
-  "/admin",
+  "/",
   utilities.checkLogin,
-  utilities.checkOwnership,
-  utilities.handleErrors(accountController.buildAdminPanel)
-);
+  utilities.handleErrors(accountController.accountDefault)
+)
 
+// Update Account and Password
+router.get("/update/:accountId", utilities.checkLogin, utilities.handleErrors(accountController.buildUpdateAccount))
 router.post(
-  "/admin",
+  "/update", 
   utilities.checkLogin,
-  utilities.checkOwnership,
-  (req, res, next) => {
-    console.log("Processing bulk update", req.body);
-    next();
-  },
-  regValidate.adminUpdateRules(),
-  regValidate.checkadminUpdate,
-  utilities.handleErrors(accountController.processAdminBulkUpdate)
-);
-
-router.get(
-  "/edit/:accountId",
-  utilities.checkLogin,
-  utilities.handleErrors(accountController.buildEditAccount)
-);
-
+  regValidate.updateRules(),
+  regValidate.checkUpdateData,
+  utilities.handleErrors(accountController.updateAccount)
+)
 router.post(
-  "/update",
+  "/updatePassword",
   utilities.checkLogin,
-  regValidate.editAccountRules(),
-  regValidate.checkAccountData,
-  utilities.handleErrors(accountController.updateAccountInfo)
-);
+  regValidate.updatePasswordRules(),
+  regValidate.checkUpdatePasswordData,
+  utilities.handleErrors(accountController.updatePassword)
+)
 
-router.post(
-  "/update/password",
-  utilities.checkLogin,
-  regValidate.accountPasswordRules(),
-  regValidate.checkAccountPassword,
-  utilities.handleErrors(accountController.updateAccountPassword)
-);
+// Logout
+router.get("/logout", utilities.handleErrors(accountController.logout))
 
-module.exports = router;
+// My Reviews Page
+router.get("/reviews/:accountId", utilities.checkLogin, utilities.handleErrors(accountController.buildReviewsPage))
 
+module.exports = router

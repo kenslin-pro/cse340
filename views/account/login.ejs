@@ -1,52 +1,28 @@
-<div>
-  <div>
-    <h1><%- title %></h1>
-    <%- messages() %>
-  </div>
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else { res.redirect('/') } %> <%- messages() %> <% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error=> { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %>
 
-  <div>
-    <form id="loginForm" action="/account/login" method="post">
-      <% if (errors) { %>
-      <ul class="notice">
-        <% errors.array().forEach(error=> { %>
-        <li><%= error.msg %></li>
-        <% }) %>
-      </ul>
-      <% } %>
-      <fieldset>
-        <div class="form_part">
-          <label>
-            <p>Email:</p>
-            <input
-              type="email"
-              required
-              id="email"
-              name="account_email"
-              value="<%= locals.account_email%>"
-            />
-          </label>
-        </div>
-        <div class="form_part">
-          <label>
-            <p>Password</p>
-            <input
-              name="account_password"
-              id="password"
-              type="password"
-              required
-              pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
-            /><br /><span id="showPass">Show Password</span>
-            <!-- <span>Passwords must be at least 12 characters and contain at least 1 number, 1 capital
-                            letter and 1 special character</span> -->
-          </label>
-        </div>
-        <div>
-          <button class="login_button">LOGIN</button>
-          <p class="login_signup_message">
-            You do not have account? <a href="/account/register">Sign-up</a>
-          </p>
-        </div>
-      </fieldset>
-    </form>
-  </div>
-</div>
+<form name="login" action="/account/login" method="post" id="loginForm">
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="account_email" required />
+  <label for="password">Password:</label>
+  <span
+    >Passwords must be at least 12 characters and contain at least 1 number, 1
+    capital letter and 1 special character</span
+  >
+  <input
+    type="password"
+    name="account_password"
+    id="password"
+    pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+    required
+  />
+  <button type="submit">LOGIN</button>
+  <p>No account? <a href="/account/register">Sign-Up</a></p>
+</form>

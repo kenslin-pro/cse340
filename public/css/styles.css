@@ -1,452 +1,1205 @@
 /******* Change Box Model ***************/
-
-:root {
-  --primary-color: #25292d;
-  --secondary-color: #007bff;
-  --white-color: #ffffff;
-  --black-color: #000000;
-  --hero-description-bg-color: #ffffff44;
-  --background-image: url('/images/site/small_check.jpg');
-}
-
-
-#loom-companion-mv3 {
-  display: none !important;
-}
-
-
-* {
-  font-family: 'Arial', sans-serif;
-  border-radius: 6px;
-}
-
-p,
-h2,
-hr,
-a {
-  margin: 0;
-  padding: 0;
-}
-
-
-
-#index-hero h1,
-h3,
-h4 {
-  margin: 1rem 0;
-  padding: 0;
-}
-
-
-.notice {
-  color: orange;
-  list-style: none;
-}
-
-
-
-body {
-  display: flex;
-  justify-content: center;
-  background-image: var(--background-image);
-  /* height: 100vh; */
-
-}
-
-footer {
-  padding-top: 2rem;
-}
-
-body>div {
-  border: 2px solid var(--secondary-color);
-  border-radius: 5px;
-  padding: 1rem;
-  /* max-width: 100vw; */
-  /* height: 90vh; */
-  width: 80vw;
-  background-color: var(--white-color);
-}
-
-.siteName a {
-  font-size: 2rem;
-
-}
-
+*,
 *:before,
 *:after {
-  box-sizing: border-box;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
 }
-
-/* body {} */
 
 #top-header {
+  height: 7dvh;
   display: flex;
+  width: 100%;
   justify-content: space-between;
-  margin: 1rem .1rem;
   align-items: center;
-
 }
 
-#top-header * {
+#top-header a {
   text-decoration: none;
+  color: #000;
 }
 
+#top-header .siteName {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-left: 8px;
+}
+
+#top-header #tools {
+  padding-right: 2%;
+}
 
 nav {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: var(--white-color);
-  background-color: var(--primary-color);
-  height: 2rem;
+  height: 5dvh;
+  width: 100%;
+  background-color: #303030;
 }
 
 nav ul {
-  display: flex;
-  justify-content: space-around;
-  list-style: none;
   width: 100%;
-  padding: 0;
+  display: flex;
+  justify-content: space-evenly;
+  list-style: none;
   align-items: center;
-  text-decoration: none;
+  background-color: #303030;
+  height: 100%;
+  padding-left: 0%;
 }
 
-nav ul li {
-  width: 100px;
+nav li {
+  color: #fff;
+  width: 100%;
+  height: 100%;
   text-align: center;
-  cursor: pointer;
-  font-size: 1rem;
-  color: var(--white-color);
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+nav li:hover {
+  background-color: #000;
+  cursor: pointer;
+}
+
+#main-container {
+  margin: 8px;
+}
+
+#main-title {
+  font-size: 1.3rem;
+}
+
+#hero {
+  position: relative;
+}
+
+#hero-img {
+  width: 100%;
+}
+
+#hero-text {
+  background-color: #ffffff81;
+  position: absolute;
+  z-index: 1;
+  top: 10%;
+  color: rgb(0, 59, 168);
+  padding-bottom: 1dvh;
+}
+
+#hero-text p {
+  font-size: 1rem;
+  margin: .5dvh 1dvh;
+}
+
+#button-container {
+  display: flex;
+  justify-content: center;
+}
+
+#hero-text button {
+  width: 90%;
+  text-align: center;
+  background-color: rgb(0, 59, 168);
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  padding: 1dvh;
+}
+
+#hero-text button:hover {
+  background-color: #000;
+  cursor: pointer;
+}
+
+#reviews {
+  margin-bottom: 5dvh;
+  margin-top: 5dvh;
+}
+
+h3 {
+  margin-bottom: 2dvh;
+}
+
+#reviews li {
+  margin-bottom: 2dvh;
+  font-size: .9rem;
+}
+
+#upgrades {
+  margin-bottom: 5dvh;
+  width: 100%;
+}
+
+#upgrade-rows {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5dvh;
+}
+
+#upgrade-container {
+  width: 47%;
+  text-align: center;
+}
+
+.img-container {
+  width: 100%;
+  height: 9dvh;
+  background-color: rgb(0, 59, 168);
+  margin-bottom: 1dvh;
+  border: #000 1px solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+footer {
+  margin-top: 5dvh;
+  padding: 1dvw;
+}
 
 nav a {
+  width: 100%;
+  height: 100%;
+  color: #fff;
   text-decoration: none;
-  color: var(--white-color);
-}
-
-nav ul li:hover {
-  background-color: var(--secondary-color);
-  padding: .4rem 0;
-
-
-}
-
-#index-hero-image-container {
-  display: flex;
-  justify-content: center;
-
-}
-
-
-#index-hero {
-  margin-bottom: 1rem;
-
-}
-
-
-#index-hero>div {
-  position: relative;
-
-}
-
-#index-hero-description {
-  position: absolute;
-  padding: .2rem;
-  background-color: var(--hero-description-bg-color);
-  margin: 0 0 0 3rem;
-  top: 40%;
-  left: 10%;
-  color: var(--secondary-color);
-  font-weight: bolder;
-
-}
-
-#index-hero-description>div>p {
-  padding-bottom: .4rem;
-
-}
-
-#own-today-button {
-  height: 2.7rem;
-}
-
-#index-content {
-  display: flex;
-  justify-content: stretch;
-  align-items: stretch;
-
-}
-
-.index-car-upgrades,
-.index-car-reviews {
-  flex: 1;
-}
-
-.index-car-reviews {
-  margin-left: 1.5rem;
-}
-
-.index-car-reviews ul,
-.index-car-reviews li {
-  padding: 0;
-  /* overflow: visible; */
-  /* overflow-wrap: normal; */
-
-}
-
-.index-car-upgrade-cards {
-  display: flex;
-  /* grid-template-columns: repeat(2, 1fr);
-grid-gap: .1rem;
-grid-template-rows: repeat(2, 1fr); */
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: .5rem;
-
-}
-
-.index-upgrade-card {
-  display: flex;
-  flex: 0 0 calc(40% - 10px);
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-
-.index-upgrade-card>div {
-  background-color: var(--secondary-color);
-  border: 1px solid black;
-  align-self: center;
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 60px;
-  width: 100%;
 
-}
-
-.index-upgrade-card a {
-  margin: 0;
-  margin-bottom: 1rem;
-  font-size: .9rem;
-  align-self: center;
-
-}
-
-.index-upgrade-card>div>img {
-  max-height: 50px;
-}
-
-#big-red-button {
-  background-color: red;
-  color: var(--white-color);
-  /* font-weight: bolder; */
-  font-size: .7rem;
-  border-radius: 30px;
-  border: 1px solid black;
-  padding: .4rem;
-  cursor: pointer;
-  box-shadow: 0 5px 0px black;
 }
 
 #inv-display {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
   list-style: none;
+  padding: 0;
+  width: 90%;
+  margin: auto;
+  margin-top: 2rem;
 }
 
 #inv-display li {
-  margin: .5rem;
-  background-color: var(--white-color);
-}
-
-#inv-display li>div {
-  border: 1px solid black;
-  border-radius: 8px;
-  height: 300px;
-  width: 300px;
-  overflow: hidden;
-}
-
-#inv-display a {
-  text-decoration: none;
-
-}
-
-.class_lists__image img {
-  width: 300px;
-  height: 210px;
-  object-fit: fill;
-  overflow: hidden;
-  /* max-width: 200px; */
-  /* max-height: 400px; */
-}
-
-#inv-display span {
-  margin: .2rem .2rem;
-}
-
-#inv-display .namePrice {
+  height: 15rem;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #303030;
+}
+
+#inv-display img {
+  height: 6rem;
+}
+
+.namePrice h2 {
+  text-align: center;
+  margin-top: .6rem;
+  margin-bottom: .4rem;
+}
+
+.namePrice h2 a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.namePrice span {
+  display: block;
+  width: 100%;
+  text-align: center;
+  color: #fff;
+
+}
+
+#detailsMain {
+  width: 95%;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+}
+
+.detailsImage {
+  margin-top: 2rem;
+}
+
+.detailsImage img {
+  width: 100%;
+}
+
+.detailsTitle {
+  text-align: center;
+}
+
+.priceMileageContainer {
+  margin-top: 1rem;
+  background-color: #303030;
+  padding: 1rem;
+  color: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mileageCont {
+  text-align: center;
+  margin-left: 1rem;
+}
+
+.mileageTitle {
+  background-color: #fff;
+  color: #000;
+  padding: .2rem;
+  margin-bottom: .3rem;
+}
+
+.priceCont {
+  text-align: end;
+}
+
+.priceDetails {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.legend {
+  font-size: .7rem;
+  margin-bottom: 1rem;
+}
+
+.detailsData {
+  width: 90%;
+  margin: auto;
+  margin-top: 1rem;
+}
+
+.detailsInfo p {
+  margin-bottom: .7rem;
+}
+
+.detailsButtons {
+  margin-top: 1rem;
+}
+
+.detailsButtons button {
+  width: 100%;
+  display: block;
+  padding: 1rem;
+  border: none;
+  text-align: center;
+  margin-bottom: .7rem;
+  cursor: pointer;
+}
+
+.purchaseButton {
+  background-color: rgb(67, 115, 235);
+  color: white;
+  font-weight: bold;
+}
+
+.errorTitle {
+  text-align: center;
+  margin-top: 5rem;
+  margin-bottom: 2rem;
+  font-size: 5rem;
+}
+
+.errorMessage {
+  text-align: center;
+}
+
+h1 {
+  padding: 20px;
+}
+
+#loginForm {
+  background-color: #303030;
+  padding: 20px;
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 10px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-#inv_page__detail {
-  display: flex;
-  flex-direction: column;
+#loginForm input {
+  width: 80%;
+  height: 30px;
+  margin-bottom: 15px;
+  margin-top: 10px;
 }
 
-#inv_page__detail>div {
-  margin: 1rem;
-}
-
-#inv_page__detail img {
-  border-radius: 8px;
-  border: .5px solid black;
-  /* fuzzy shadow bottom right */
-  box-shadow: 4px 5px 5px black;
-  transform: scale(1.05);
-  transition: transform 1s;
-  width: 50vw;
-  height: 25vw
-}
-
-.inv__details {
-  display: flex;
-  flex-direction: column;
-  /* justify-content: space-between; */
-}
-
-.inv__details-content {
-  list-style: none;
-}
-
-.inv__details-content li {
-  margin: .5rem 0;
-  font-size: 1.1rem;
-}
-
-.inv__details-content li span:nth-child(1) {
-  font-weight: bolder;
-}
-
-.inv__details-content_description {}
-
-
-
-.form_part {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  color: var(--white-color);
-  width: 100%;
-  margin-bottom: .75rem;
-  /* margin: 1rem; */
-  /* align-items: flex-start; */
-}
-
-
-fieldset {
-  padding: 1rem;
-  max-width: 25%;
-
-  display: flex;
-  flex-direction: column;
-  background-color: var(--primary-color);
-  color: var(--white-color);
-  border: 1px solid black;
-  text-wrap: none;
-
-}
-
-
-input,
-select {
-  width: 95%;
-  height: 1.5rem;
-  border: 1px solid black;
-}
-
-fieldset h2 {
-  color: var(--white-color);
-  margin: 1rem 0;
-}
-
-fieldset button {
-  margin: 1rem 0;
-  /* max-width: 100px; */
-  border-radius: 12px;
-  align-self: center;
-  cursor: pointer;
-  padding: .5rem .7rem;
-  font-size: medium;
-  background-color: var(--white-color);
-  color: var(--black-color);
-  border: 1px solid black;
-}
-
-
-.login_signup_message {
-  margin-left: 16%;
-  text-wrap: none;
-}
-
-
-/* disabled button */
-fieldset button:disabled {
-  background-color: #ccc;
-  color: #666;
-  cursor: not-allowed;
-}
-
-fieldset a {
-  text-decoration: underline;
-  color: var(--secondary-color);
-  cursor: pointer;
-}
-
-#showPass {
-  /* margin-left: 1rem; */
-  cursor: pointer;
-}
-
-
-input:required:invalid,
-input:focus:invalid {
-  background-image: url(/images/invalid.png);
-  background-position: right top;
-  background-repeat: no-repeat;
-}
-
-input:required:valid {
-  background-image: url(/images/valid.png);
-  background-position: right top;
-  background-repeat: no-repeat;
-}
-
-label {
-  width: 100%;
-}
-
-fieldset span {
-  /* margin-top: .4rem; */
-  margin: .4rem 0;
-}
-
-.form_instruct,
-.form_direct {
+#loginForm label {
   display: block;
+  width: 80%;
+  text-align: left;
+  color: white;
 }
 
-fieldset>div>label>span:nth-child(5) {
+#loginForm button {
+  padding: 10px 15px;
+  background-color: #fff;
+  color: #000;
+  border: #000;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#loginForm p {
+  color: #fff;
+}
+
+#loginForm a {
+  color: #fff;
+}
+
+#loginForm span {
+  display: block;
+  width: 80%;
+  color: #fff;
+  text-align: left;
   font-size: .7rem;
 }
 
-section h2 {
-  margin: 1rem 0;
+#registerForm {
+  background-color: #303030;
+  padding: 20px;
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#registerForm input {
+  width: 80%;
+  height: 30px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+#registerForm label {
+  display: block;
+  width: 80%;
+  text-align: left;
+  color: white;
+}
+
+#registerForm button {
+  padding: 10px 15px;
+  background-color: #fff;
+  color: #000;
+  border: #000;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#registerForm p {
+  color: #fff;
+}
+
+#registerForm a {
+  color: #fff;
+}
+
+#registerForm ul {
+  width: 80%;
+  color: white;
+  text-align: left;
+}
+
+#registerForm span {
+  display: block;
+  width: 80%;
+  color: #fff;
+  text-align: left;
+  font-size: .7rem;
+}
+
+#addClassification {
+  background-color: #303030;
+  padding: 20px;
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#addClassification input {
+  width: 80%;
+  height: 30px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+#addClassification label {
+  display: block;
+  width: 80%;
+  text-align: left;
+  color: white;
+}
+
+#addClassification button {
+  padding: 10px 15px;
+  background-color: #fff;
+  color: #000;
+  border: #000;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#addClassification p {
+  color: #fff;
+}
+
+#addClassification span {
+  display: block;
+  width: 80%;
+  color: #fff;
+  text-align: left;
+  font-size: .7rem;
+}
+
+#addInventory {
+  background-color: #303030;
+  padding: 20px;
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#addInventory input,
+#addInventory textarea,
+#addInventory select {
+  width: 80%;
+  height: 30px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+#addInventory textarea {
+  height: 70px;
+}
+
+#addInventory label {
+  display: block;
+  width: 80%;
+  text-align: left;
+  color: white;
+}
+
+#addInventory button {
+  padding: 10px 15px;
+  background-color: #fff;
+  color: #000;
+  border: #000;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#addInventory p {
+  color: #fff;
+}
+
+#addClassification span {
+  display: block;
+  width: 80%;
+  color: #fff;
+  text-align: left;
+  font-size: .7rem;
+}
+
+#editInventory {
+  background-color: #303030;
+  padding: 20px;
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#editInventory input,
+#editInventory textarea,
+#editInventory select {
+  width: 80%;
+  height: 30px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+#editInventory textarea {
+  height: 70px;
+}
+
+#editInventory label {
+  display: block;
+  width: 80%;
+  text-align: left;
+  color: white;
+}
+
+#editInventory button {
+  padding: 10px 15px;
+  background-color: #fff;
+  color: #000;
+  border: #000;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#editInventory p {
+  color: #fff;
+}
+
+#deleteInventory {
+  background-color: #303030;
+  padding: 20px;
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#deleteInventory input,
+#deleteInventory textarea,
+#deleteInventory select {
+  width: 80%;
+  height: 30px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+#deleteInventory textarea {
+  height: 70px;
+}
+
+#deleteInventory label {
+  display: block;
+  width: 80%;
+  text-align: left;
+  color: white;
+}
+
+#deleteInventory button {
+  padding: 10px 15px;
+  background-color: #fff;
+  color: #000;
+  border: #000;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#deleteInventory p {
+  color: #fff;
+}
+
+#updateAccount {
+  background-color: #303030;
+  padding: 20px;
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5dvh;
+}
+
+#updateAccount input {
+  width: 80%;
+  height: 30px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+#updateAccount label {
+  display: block;
+  width: 80%;
+  text-align: left;
+  color: white;
+}
+
+#updateAccount button {
+  padding: 10px 15px;
+  background-color: #fff;
+  color: #000;
+  border: #000;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#updateAccount p {
+  color: #fff;
+}
+
+#updateAccount a {
+  color: #fff;
+}
+
+#updateAccount ul {
+  width: 80%;
+  color: white;
+  text-align: left;
+}
+
+#updateAccount span {
+  display: block;
+  width: 80%;
+  color: #fff;
+  text-align: left;
+  font-size: .7rem;
+}
+
+#updatePassword {
+  background-color: #303030;
+  padding: 20px;
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#updatePassword input {
+  width: 80%;
+  height: 30px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+#updatePassword label {
+  display: block;
+  width: 80%;
+  text-align: left;
+  color: white;
+}
+
+#updatePassword button {
+  padding: 10px 15px;
+  background-color: #fff;
+  color: #000;
+  border: #000;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#updatePassword p {
+  color: #fff;
+}
+
+#updatePassword a {
+  color: #fff;
+}
+
+#updatePassword ul {
+  width: 80%;
+  color: white;
+  text-align: left;
+}
+
+#updatePassword span {
+  display: block;
+  width: 80%;
+  color: #fff;
+  text-align: left;
+  font-size: .7rem;
+}
+
+#editReview {
+  background-color: #303030;
+  padding: 20px;
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#editReview input {
+  width: 80%;
+  height: 30px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+#editReview label {
+  display: block;
+  width: 80%;
+  text-align: left;
+  color: white;
+}
+
+#editReview button {
+  padding: 10px 15px;
+  background-color: #fff;
+  color: #000;
+  border: #000;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#editReview p {
+  color: #fff;
+}
+
+#editReview span {
+  display: block;
+  width: 80%;
+  color: #fff;
+  text-align: left;
+  font-size: .7rem;
+}
+
+#editReview input,
+#editReview textarea,
+#editReview select {
+  width: 80%;
+  height: 30px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+#editReview textarea {
+  height: 70px;
+}
+
+#deleteReview {
+  background-color: #303030;
+  padding: 20px;
+  display: flex;
+  width: 90%;
+  margin: 0 auto;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#deleteReview input {
+  width: 80%;
+  height: 30px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+#deleteReview label {
+  display: block;
+  width: 80%;
+  text-align: left;
+  color: white;
+}
+
+#deleteReview button {
+  padding: 10px 15px;
+  background-color: #fff;
+  color: #000;
+  border: #000;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#deleteReview p {
+  color: #fff;
+}
+
+#deleteReview span {
+  display: block;
+  width: 80%;
+  color: #fff;
+  text-align: left;
+  font-size: .7rem;
+}
+
+#deleteReview input,
+#deleteReview textarea,
+#deleteReview select {
+  width: 80%;
+  height: 30px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+#deleteReview textarea {
+  height: 70px;
+}
+
+#reviewList {
+  border: 1px solid #303030;
+  padding: 20px;
+  width: 80%;
+  margin: 0 auto;
+  border-radius: 10px;
+  text-align: left;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.review {
+  margin-bottom: 40px;
+}
+
+.reviewer {
+  font-size: small;
+  margin-top: 5px;
+}
+
+.editReviewButton,
+.deleteReviewButton {
+  margin-right: 20px;
+  font-size: small;
+}
+
+#reviewAdd {
+  background-color: #303030;
+  padding: 20px;
+  display: flex;
+  width: 80%;
+  margin: 0 auto;
+  border-radius: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#reviewAdd input {
+  width: 80%;
+  height: 30px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+#reviewAdd label {
+  display: block;
+  width: 80%;
+  text-align: left;
+  color: white;
+}
+
+#reviewAdd button {
+  padding: 10px 15px;
+  background-color: #fff;
+  color: #000;
+  border: #000;
+  border-radius: 5px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+#reviewAdd p {
+  color: #fff;
+}
+
+#reviewAdd span {
+  display: block;
+  width: 80%;
+  color: #fff;
+  text-align: left;
+  font-size: .7rem;
+}
+
+#reviewAdd input,
+#reviewAdd textarea,
+#reviewAdd select {
+  width: 80%;
+  height: 30px;
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+
+#reviewAdd textarea {
+  height: 70px;
+}
+
+.addReviewTitle {
+  text-align: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
+@media screen and (min-width: 790px) {
+  #content {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    flex-direction: row-reverse;
+    margin-top: 5dvh;
+  }
+
+  #upgrades {
+    width: 40%;
+  }
+
+  .img-container {
+    height: 9dvh;
+  }
+
+  #reviews {
+    width: 40%;
+    margin-top: 0;
+  }
+
+  .img-container {
+    height: 15dvh;
+  }
+
+  #upgrade-container {
+    max-width: 20dvw;
+  }
+
+  #reviews li {
+    margin-bottom: 3dvh;
+    font-size: 1.2rem;
+  }
+
+  #hero-text {
+    top: 30%;
+    left: 5%;
+    width: 30%;
+  }
+
+  #hero-img {
+    width: 50%;
+  }
+
+  #hero {
+    display: flex;
+    justify-content: center;
+  }
+
+  nav {
+    height: 8vh;
+  }
+
+  #main-title {
+    font-size: 2rem;
+  }
+
+  #top-header {
+    height: 12vh;
+  }
+
+  #inv-display {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+    width: 90%;
+    margin: auto;
+    margin-top: 2rem;
+  }
+
+  #inv-display li {
+    height: 18rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #303030;
+  }
+
+  #inv-display img {
+    height: 9rem;
+  }
+
+  .namePrice h2 {
+    text-align: center;
+    margin-top: .6rem;
+    margin-bottom: .4rem;
+  }
+
+  .namePrice h2 a {
+    text-decoration: none;
+    color: #fff;
+  }
+
+  .namePrice span {
+    display: block;
+    width: 100%;
+    text-align: center;
+    color: #fff;
+  }
+
+  #detailsMain {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: auto;
+  }
+
+  .detailsImage {
+    width: 50%;
+    margin-top: 3rem;
+  }
+
+  .detailsImage img {
+    width: 100%;
+  }
+
+  #detailsMainData {
+    width: 45%;
+  }
+
+  .detailsTitle {
+    margin-top: 2rem;
+    font-size: 1.9rem;
+    text-align: start;
+  }
+
+  .priceMileageContainer {
+    margin-top: 1rem;
+    background-color: #303030;
+    padding: 1rem;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .mileageCont {
+    text-align: center;
+    margin-left: 1rem;
+  }
+
+  .mileageTitle {
+    background-color: #fff;
+    color: #000;
+    padding: .2rem;
+    margin-bottom: .3rem;
+  }
+
+  .priceCont {
+    text-align: end;
+  }
+
+  .priceDetails {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  .legend {
+    font-size: .7rem;
+    margin-bottom: 1rem;
+  }
+
+  .detailsData {
+    width: 90%;
+    margin: auto;
+    margin-top: 1rem;
+  }
+
+  .detailsInfo p {
+    margin-bottom: .7rem;
+  }
+
+  .detailsButtons {
+    margin-top: 1rem;
+  }
+
+  .detailsButtons button {
+    width: 100%;
+    display: block;
+    padding: 1rem;
+    border: none;
+    text-align: center;
+    margin-bottom: .7rem;
+    cursor: pointer;
+  }
+
+  .purchaseButton {
+    background-color: rgb(67, 115, 235);
+    color: white;
+    font-weight: bold;
+  }
+
+  #loginForm {
+    width: 50%;
+  }
+
+  #registerForm {
+    width: 50%;
+  }
+
+  #addClassification {
+    width: 50%;
+  }
+
+  #addInventory {
+    width: 50%;
+  }
+
+  #editInventory {
+    width: 50%;
+  }
+
+  #deleteInventory {
+    width: 50%;
+  }
+
+  #updatePassword {
+    width: 50%;
+  }
+
+  #updateAccount {
+    width: 50%;
+  }
+
+  #editReview {
+    width: 50%;
+  }
+
+  #deleteReview {
+    width: 50%;
+  }
+
+  #reviewAdd {
+    width: 50%;
+  }
+
+  #reviewList {
+    width: 50%;
+  }
 }

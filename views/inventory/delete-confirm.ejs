@@ -1,93 +1,64 @@
-<!-- add vehicle class view -->
-<div>
-  <% if (title) { %>
-  <h1><%= title %></h1>
-  <%- messages() %> <% } else { res.redirect('/') } %>
-</div>
-<% if (errors) { %>
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } %> <%- messages() %> <% if (errors) { %>
 <ul class="notice">
-  <% errors.array().forEach(error=> { %>
+  <% errors.array().forEach(error => { %>
   <li><%= error.msg %></li>
   <% }) %>
 </ul>
 <% } %>
 
-<form action="/inv/delete" method="post" id="deleteForm">
-  <fieldset>
-    <h2>
-      Review and confirm you would like to delete this vehicle. THIS ACTION
-      CANNOT BE UNDONE.
-    </h2>
-    <div class="form_part">
-      <label>
-        <p>Make</p>
-        <input
-          type="text"
-          readonly
-          name="inv_make"
-          id="invMake"
-          required
-          placeholder="Min of 3 characters"
-          pattern="^.{3,}$"
-          value="<%= locals.inv_make %>"
-        />
-        <!-- <input name="account_firstname" type="text" > -->
-      </label>
-    </div>
-    <div class="form_part">
-      <label>
-        <p>Model</p>
-        <input
-          type="text"
-          readonly
-          name="inv_model"
-          id="invModel"
-          required
-          placeholder="Min of 3 characters"
-          pattern="^.{3,}$"
-          value="<%= locals.inv_model %>"
-        />
-      </label>
-    </div>
-    <div class="form_part">
-      <label>
-        <p>Year</p>
-        <input
-          name="inv_year"
-          readonly
-          type="number"
-          required
-          id="invYear"
-          value="<%= locals.inv_year %>"
-          placeholder="4-digit year"
-          pattern="^/d{4}$"
-        />
-      </label>
-    </div>
-    <div class="form_part">
-      <label>
-        <p>Price</p>
-        <input
-          name="inv_price"
-          readonly
-          id="invPrice"
-          type="number"
-          step="0.01"
-          value="<%= locals.inv_price %>"
-          required
-          placeholder="Decimal or integer"
-          pattern="^\d+(\.\d{1,2})?$"
-        />
-      </label>
-    </div>
-    <input
-      name="inv_id"
-      readonly
-      id="invId"
-      type="hidden"
-      value="<%= locals.inv_id%>"
-      required
-    />
-    <button type="submit">Delete Vehicle</button>
-  </fieldset>
+<p>Confirm Deletion - The delete is permanent.</p>
+
+<form action="/inv/delete" method="post" name="delete" id="deleteInventory">
+  <label for="inv_make">Car Brand:</label>
+  <input
+    readonly
+    type="text"
+    name="inv_make"
+    id="invMake"
+    value="<%= locals.inv_make %>"
+    pattern="^[A-Za-z\s]+$"
+    required
+  />
+
+  <label for="inv_model">Car Model:</label>
+  <input
+    readonly
+    type="text"
+    name="inv_model"
+    id="invModel"
+    value="<%= locals.inv_model %>"
+    pattern="^[A-Za-z0-9\s]+$"
+    required
+  />
+
+  <label for="inv_year">Car Year:</label>
+  <input
+    readonly
+    type="text"
+    name="inv_year"
+    id="invYear"
+    value="<%= locals.inv_year %>"
+    pattern="^[0-9]+$"
+    minlength="4"
+    maxlength="4"
+    required
+  />
+
+  <label for="inv_price">Price:</label>
+  <input
+    readonly
+    type="number"
+    name="inv_price"
+    id="invPrice"
+    value="<%= locals.inv_price %>"
+    min="0"
+    step="1"
+    required
+  />
+
+  <input type="hidden" name="inv_id" value="<%= locals.inv_id %>" />
+
+  <button type="submit">Delete Car</button>
 </form>

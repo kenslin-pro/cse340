@@ -1,65 +1,50 @@
-// Needed Resources 
 const express = require("express")
 const router = new express.Router()
+const utilities = require("../utilities")
 const invController = require("../controllers/invController")
-const utilities = require("../utilities/index.js")
-const invValidate = require('../utilities/inventory-validation.js')
+const reviewController = require("../controllers/reviewController")
+const reviewValidation = require("../utilities/review-validation")
+const classValidator = require("../utilities/inventory-validation")
 
-router.get("/",
-    utilities.checkLogin, 
-    utilities.accountTypeCheck,
-    utilities.handleErrors(invController.buildVehicleManager))
+router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId));
+router.get("/detail/:invId", utilities.handleErrors(invController.buildByInvId))
+router.get("/", utilities.handleErrors(invController.management))
+router.get("/management", utilities.handleErrors(invController.management))
+router.get("/add-classification", utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.addClassification));
+router.post(
+  "/add-classification",
+  classValidator.classificationRules(),
+  classValidator.checkClassData,
+  utilities.handleErrors(invController.newClassification)
+);
+router.get("/add-inventory", utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.buildAddInventory));
+router.post("/add-inventory",
+  classValidator.inventoryRules(),
+  classValidator.checkInventoryData,
+  utilities.handleErrors(invController.newInventory)
+)
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
+router.get("/edit/:invId", utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.editInventory))
+router.post(
+  "/edit/",
+  classValidator.newInventoryRules(),
+  classValidator.checkUpdateData,
+  utilities.handleErrors(invController.updateInventory))
 
-router.get("/addClass",
-    utilities.checkLogin, 
-    utilities.accountTypeCheck,
-    utilities.handleErrors(invController.buildAddClass))
-router.post("/addClass",
-    utilities.checkLogin, 
-    utilities.accountTypeCheck,
-    invValidate.addClassRules(),
-    invValidate.checkAddClassData,
-    utilities.handleErrors(invController.addClass))
-
-router.get("/addInv",
-    utilities.checkLogin, 
-    utilities.accountTypeCheck,
-    utilities.handleErrors(invController.buildAddInv))
-
-router.post("/addInv",
-    utilities.checkLogin, 
-    utilities.accountTypeCheck,
-    invValidate.addInvRules(),
-    invValidate.checkAddInvData,
-    utilities.handleErrors(invController.addInv))
-
-// Route to build inventory by classification view
-router.get("/type/:classificationId", utilities.handleErrors(invController.buildByClassificationId))
-router.get("/detail/:inventoryId", utilities.handleErrors(invController.buildByInventoryId))
-router.get("/getInventory/:classificationId", utilities.handleErrors(invController.getInventoryJSON))
-
-router.get("/edit/:inventoryId",
-    utilities.checkLogin, 
-    utilities.accountTypeCheck,
-    utilities.handleErrors(invController.buildEditInv))
-
-router.post("/update/",
-    utilities.checkLogin, 
-    utilities.accountTypeCheck,
-    invValidate.addInvRules(),
-    invValidate.checkAddInvData,
-    utilities.handleErrors(invController.updateEditInv))
-
-router.get("/delete/:inventoryId",
-    utilities.checkLogin, 
-    utilities.accountTypeCheck,
-    utilities.handleErrors(invController.buildDeleteInv))
-
-router.post("/delete/",
-    utilities.checkLogin, 
-    utilities.accountTypeCheck,
-    utilities.handleErrors(invController.deleteInv))
-
-
+router.get("/delete/:invId", utilities.checkEmployeeOrAdmin, utilities.handleErrors(invController.buildDeleteInventory))
+router.post("/delete", utilities.handleErrors(invController.deleteInventory))
+router.post(
+  "/review-add",
+  reviewValidation.newReviewRules(),
+  reviewValidation.checkReviewData,
+  utilities.handleErrors(reviewController.addReview))
+router.get("/edit-review/:reviewId", utilities.checkLogin, utilities.handleErrors(reviewController.editReview))
+router.get("/delete-review/:reviewId", utilities.checkLogin, utilities.handleErrors(reviewController.deleteReviewView))
+router.post(
+  "/edit-review",
+  reviewValidation.newReviewRules(),
+  reviewValidation.checkUpdateReviewData,
+  utilities.handleErrors(reviewController.updateReview))
+router.post("/delete-review", utilities.handleErrors(reviewController.deleteReview))
 
 module.exports = router;

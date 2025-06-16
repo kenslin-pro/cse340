@@ -1,4 +1,32 @@
-<!-- page detail view -->
 <% if (title) { %>
 <h1><%= title %></h1>
-<% } else { res.redirect('/') } %> <%# messages() %> <%- grid %>
+<% } else { res.redirect('/') } %> <%- messages() %> <% if (errors) { %>
+<ul class="notice">
+  <% errors.array().forEach(error => { %>
+  <li><%= error.msg %></li>
+  <% }) %>
+</ul>
+<% } %> <%- content %> <%- reviewContent %> <% if (!loggedin) { %>
+<p>To add a review, please <a href="/account/login">log in</a>.</p>
+<% } else { %>
+<div class="add-review-form">
+  <h3 class="addReviewTitle">Add a Review</h3>
+  <form action="/inv/review-add" method="post" name="reviewAdd" id="reviewAdd">
+    <label for="review_text">Review:</label>
+    <textarea
+      id="review_text"
+      name="review_text"
+      rows="4"
+      minlength="10"
+      required
+      maxlength="2000"
+    >
+<%= locals.review_text %></textarea
+    >
+
+    <input type="hidden" name="inv_id" value="<%= locals.inventory_id %>" />
+    <input type="hidden" name="account_id" value="<%= locals.account_id %>" />
+    <button type="submit">Add Review</button>
+  </form>
+</div>
+<% } %>
