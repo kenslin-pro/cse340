@@ -35,7 +35,6 @@ async function registerAccount(req, res) {
   let nav = await utilities.getNav()
   const { account_firstname, account_lastname, account_email, account_password } = req.body
 
-  // Hash the password before storing
   let hashedPassword
   try {
     hashedPassword = await bcrypt.hashSync(account_password, 10)
@@ -227,7 +226,7 @@ const updatePassword = async (req, res) => {
 }
 
 /* ****************************************
- *  Deliver My Reviews View
+ *  Deliver My Reviews View ✅ FIXED
  * *************************************** */
 async function buildReviewsPage(req, res) {
   let nav = await utilities.getNav()
@@ -235,13 +234,13 @@ async function buildReviewsPage(req, res) {
 
   try {
     const reviews = await accountModel.getReviewsByAccountId(accountId)
-    const reviewGrid = await utilities.buildReviews(reviews, accountId)
+    const reviewContent = await utilities.buildReviews(reviews, accountId) // ✅ FIXED variable name
 
     res.render("account/reviews", {
       title: "My Reviews",
       nav,
       errors: null,
-      reviewGrid,
+      reviewContent, // ✅ Matches your EJS
     })
   } catch (error) {
     req.flash("notice", "Sorry, we couldn't load your reviews.")
@@ -275,5 +274,5 @@ module.exports = {
   updateAccount,
   updatePassword,
   logout,
-  buildReviewsPage, // ✅ NEW FUNCTION EXPORT
+  buildReviewsPage,
 }

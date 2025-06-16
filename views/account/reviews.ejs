@@ -6,19 +6,4 @@
   <li><%= error.msg %></li>
   <% }) %>
 </ul>
-<% } %> <% if (reviews && reviews.length > 0) { %>
-<section class="review-list">
-  <% reviews.forEach(review => { %>
-  <article class="review-item">
-    <h2><%= review.inv_make %> <%= review.inv_model %></h2>
-    <p>
-      <strong>Date:</strong> <%= new
-      Date(review.review_date).toLocaleDateString() %>
-    </p>
-    <p><%= review.review_text %></p>
-  </article>
-  <% }) %>
-</section>
-<% } else { %>
-<p>No reviews found for your account.</p>
-<% } %>
+<% } %> <%- reviewContent %>
