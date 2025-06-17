@@ -7,22 +7,17 @@ const Util = {}
 /* ************************
  * Constructs the nav HTML unordered list
  ************************** */
-Util.getNav = async function (req, res, next) {
-  let data = await invModel.getClassifications()
+Util.getNav = async function (accountType = null) {
+  const data = await invModel.getClassifications()
   let list = "<ul>"
   list += '<li><a href="/" title="Home page">Home</a></li>'
   data.rows.forEach((row) => {
-    list += "<li>"
-    list +=
-      '<a href="/inv/type/' +
-      row.classification_id +
-      '" title="See our inventory of ' +
-      row.classification_name +
-      ' vehicles">' +
-      row.classification_name +
-      "</a>"
-    list += "</li>"
+    list += `<li><a href="/inv/type/${row.classification_id}" title="See our inventory of ${row.classification_name} vehicles">${row.classification_name}</a></li>`
   })
+  // Show Inventory Management link for Admin/Employee
+  if (accountType === "Employee" || accountType === "Admin") {
+    list += '<li><a href="/inv/" title="Manage Inventory">Manage Inventory</a></li>'
+  }
   list += "</ul>"
   return list
 }
@@ -35,23 +30,16 @@ Util.buildClassificationGrid = async function (data) {
   if (data.length > 0) {
     grid = '<ul id="inv-display">'
     data.forEach(vehicle => {
-      grid += '<li>'
-      grid += '<a href="../../inv/detail/' + vehicle.inv_id
-        + '" title="View ' + vehicle.inv_make + ' ' + vehicle.inv_model
-        + ' details"><img src="' + vehicle.inv_thumbnail
-        + '" alt="Image of ' + vehicle.inv_make + ' ' + vehicle.inv_model
-        + ' on CSE Motors" /></a>'
-      grid += '<div class="namePrice">'
-      grid += '<hr />'
-      grid += '<h2>'
-      grid += '<a href="../../inv/detail/' + vehicle.inv_id + '" title="View '
-        + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">'
-        + vehicle.inv_make + ' ' + vehicle.inv_model + '</a>'
-      grid += '</h2>'
-      grid += '<span>$'
-        + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
-      grid += '</div>'
-      grid += '</li>'
+      grid += `<li>
+        <a href="../../inv/detail/${vehicle.inv_id}" title="View ${vehicle.inv_make} ${vehicle.inv_model} details">
+          <img src="${vehicle.inv_thumbnail}" alt="Image of ${vehicle.inv_make} ${vehicle.inv_model} on CSE Motors" />
+        </a>
+        <div class="namePrice">
+          <hr />
+          <h2><a href="../../inv/detail/${vehicle.inv_id}" title="View ${vehicle.inv_make} ${vehicle.inv_model} details">${vehicle.inv_make} ${vehicle.inv_model}</a></h2>
+          <span>$${Number(vehicle.inv_price).toLocaleString('en-US')}</span>
+        </div>
+      </li>`
     })
     grid += '</ul>'
   } else {
@@ -70,7 +58,7 @@ Util.buildDetailsView = async (data) => {
         <div class="priceMileageContainer">
           <div class="mileageCont">
             <p class="mileageTitle">Mileage</p>
-            <p class="mileage">${(data.inv_miles).toLocaleString("en-US")}</p>
+            <p class="mileage">${Number(data.inv_miles).toLocaleString("en-US")}</p>
           </div>
           <div class="priceCont">
             <p class="priceDetails">$${Number(data.inv_price).toLocaleString("en-US")}</p>
@@ -81,7 +69,7 @@ Util.buildDetailsView = async (data) => {
         <div class="detailsData">
           <div class="detailsInfo">
             <p><b>Description: </b>${data.inv_description}</p>
-            <p><b>Mileage: </b>${(data.inv_miles).toLocaleString("en-US")}</p>
+            <p><b>Mileage: </b>${Number(data.inv_miles).toLocaleString("en-US")}</p>
             <p><b>Year: </b>${data.inv_year}</p>
             <p><b>Brand: </b>${data.inv_make}</p>
             <p><b>Model: </b>${data.inv_model}</p>
@@ -95,27 +83,30 @@ Util.buildDetailsView = async (data) => {
           </div>
         </div>
       </div>
-    </div>`);
+    </div>`)
 }
 
-Util.renderSelect = async () => {
+/**
+ * Render <select> options, optionally preselecting one
+ */
+Util.renderSelect = async (selectedId = null) => {
   const data = await invModel.getClassifications()
   let select = `<select name="classification_id" id="classificationId">`
   data.rows.forEach(row => {
-    select += `<option value="${row.classification_id}">${row.classification_name}</option>`
+    const selected = selectedId == row.classification_id ? 'selected' : ''
+    select += `<option value="${row.classification_id}" ${selected}>${row.classification_name}</option>`
   })
   select += `</select>`
   return select
 }
 
 /* ****************************************
- * Middleware For Handling Errors
- * Wrap other function in this for General Error Handling
+ * Middleware for error wrapping
  **************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
 
 /* ****************************************
- * Middleware to check token validity
+ * Check JWT Token
  **************************************** */
 Util.checkJWTToken = (req, res, next) => {
   if (req.cookies.jwt) {
@@ -124,7 +115,7 @@ Util.checkJWTToken = (req, res, next) => {
       process.env.ACCESS_TOKEN_SECRET,
       function (err, accountData) {
         if (err) {
-          req.flash("Please log in")
+          req.flash("notice", "Please log in")
           res.clearCookie("jwt")
           return res.redirect("/account/login")
         }
@@ -133,12 +124,13 @@ Util.checkJWTToken = (req, res, next) => {
         next()
       })
   } else {
+    res.locals.loggedin = 0
     next()
   }
 }
 
 /* ****************************************
- * Check Login
+ * Check Login Middleware
  **************************************** */
 Util.checkLogin = (req, res, next) => {
   if (res.locals.loggedin) {
@@ -149,35 +141,37 @@ Util.checkLogin = (req, res, next) => {
   }
 }
 
+/* ****************************************
+ * Check for Employee or Admin
+ **************************************** */
 Util.checkEmployeeOrAdmin = (req, res, next) => {
-  if (res.locals.accountData?.account_type === 'Employee' || res.locals.accountData?.account_type === 'Admin') {
+  const type = res.locals.accountData?.account_type
+  if (type === 'Employee' || type === 'Admin') {
     next()
   } else {
-    req.flash("notice", "Unauthorized. Please log in as an Employee or an Admin.")
+    req.flash("notice", "Unauthorized. Please log in as an Employee or Admin.")
     return res.redirect("/account/login")
   }
 }
 
 /* ****************************************
- * Build Reviews List
+ * Build Reviews HTML
  **************************************** */
 Util.buildReviews = async (data, account_id) => {
-  let div = '';
+  let div = ''
   if (!Array.isArray(data) || data.length === 0) {
-    div += '<p class="notice">No reviews have been left yet.</p>';
-    return div;
+    div += '<p class="notice">No reviews have been left yet.</p>'
+    return div
   }
 
   div = '<div id="reviewList">'
   data.forEach(review => {
-    div += '<div class="review">'
-    div += '<p>' + review.review_text + '</p>'
-    div += '<p class="reviewer"><strong>' + review.account_firstname + ' ' + review.account_lastname + '</strong> On ' +
-      new Date(review.review_date).toLocaleDateString() + ' ' +
-      new Date(review.review_date).toLocaleTimeString() + '</p>'
+    div += `<div class="review">
+      <p>${review.review_text}</p>
+      <p class="reviewer"><strong>${review.account_firstname} ${review.account_lastname}</strong> on ${new Date(review.review_date).toLocaleDateString()} ${new Date(review.review_date).toLocaleTimeString()}</p>`
     if (String(review.account_id) === String(account_id)) {
-      div += '<a href="/inv/edit-review/' + review.review_id + '" class="editReviewButton">Edit</a>'
-      div += '<a href="/inv/delete-review/' + review.review_id + '" class="deleteReviewButton">Delete</a>'
+      div += `<a href="/inv/edit-review/${review.review_id}" class="editReviewButton">Edit</a>
+              <a href="/inv/delete-review/${review.review_id}" class="deleteReviewButton">Delete</a>`
     }
     div += '</div>'
   })

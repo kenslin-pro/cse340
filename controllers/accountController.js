@@ -5,9 +5,9 @@ const jwt = require("jsonwebtoken")
 require("dotenv").config()
 
 /* ****************************************
-*  Deliver login view
-* *************************************** */
-async function buildLogin(req, res, next) {
+ *  Deliver login view
+ * *************************************** */
+async function buildLogin(req, res) {
   let nav = await utilities.getNav()
   res.render("account/login", {
     title: "Login",
@@ -17,9 +17,9 @@ async function buildLogin(req, res, next) {
 }
 
 /* ****************************************
-*  Deliver registration view
-* *************************************** */
-async function buildRegister(req, res, next) {
+ *  Deliver registration view
+ * *************************************** */
+async function buildRegister(req, res) {
   let nav = await utilities.getNav()
   res.render("account/register", {
     title: "Register",
@@ -29,8 +29,8 @@ async function buildRegister(req, res, next) {
 }
 
 /* ****************************************
-*  Process Registration
-* *************************************** */
+ *  Process Registration
+ * *************************************** */
 async function registerAccount(req, res) {
   let nav = await utilities.getNav()
   const { account_firstname, account_lastname, account_email, account_password } = req.body
@@ -76,7 +76,7 @@ async function registerAccount(req, res) {
 
 /* ****************************************
  *  Process login request
- * ************************************ */
+ * *************************************** */
 async function accountLogin(req, res) {
   let nav = await utilities.getNav()
   const { account_email, account_password } = req.body
@@ -116,21 +116,25 @@ async function accountLogin(req, res) {
 
 /* ****************************************
  *  Account dashboard
- * ************************************ */
-async function accountDefault(req, res, next) {
-  let nav = await utilities.getNav()
+ * *************************************** */
+async function accountDefault(req, res) {
+  const accountData = res.locals.accountData
+  let nav = await utilities.getNav(accountData?.account_type)
+
   res.render("account/", {
     title: "You're logged in",
     nav,
-    errors: null
+    errors: null,
+    accountData
   })
 }
 
 /* ****************************************
  *  Build update account view
- * ************************************ */
+ * *************************************** */
 async function buildUpdateAccount(req, res) {
-  let nav = await utilities.getNav()
+  const accountDataSession = res.locals.accountData
+  let nav = await utilities.getNav(accountDataSession?.account_type)
   const accountId = req.params.accountId
   const accountData = await accountModel.getAccountById(accountId)
 
@@ -158,9 +162,10 @@ async function buildUpdateAccount(req, res) {
 
 /* ****************************************
  *  Update account details
- * ************************************ */
+ * *************************************** */
 const updateAccount = async (req, res) => {
-  let nav = await utilities.getNav()
+  const accountData = res.locals.accountData
+  let nav = await utilities.getNav(accountData?.account_type)
   const { account_id, account_firstname, account_lastname, account_email } = req.body
   const updateResult = await accountModel.updateAccount(account_id, account_firstname, account_lastname, account_email)
 
@@ -187,9 +192,10 @@ const updateAccount = async (req, res) => {
 
 /* ****************************************
  *  Update account password
- * ************************************ */
+ * *************************************** */
 const updatePassword = async (req, res) => {
-  let nav = await utilities.getNav()
+  const accountData = res.locals.accountData
+  let nav = await utilities.getNav(accountData?.account_type)
   const { account_id, account_password } = req.body
 
   let hashedPassword
@@ -226,21 +232,22 @@ const updatePassword = async (req, res) => {
 }
 
 /* ****************************************
- *  Deliver My Reviews View ✅ FIXED
+ *  Deliver My Reviews View
  * *************************************** */
 async function buildReviewsPage(req, res) {
-  let nav = await utilities.getNav()
-  const accountId = res.locals.accountData.account_id
+  const accountData = res.locals.accountData
+  let nav = await utilities.getNav(accountData?.account_type)
+  const accountId = accountData.account_id
 
   try {
     const reviews = await accountModel.getReviewsByAccountId(accountId)
-    const reviewContent = await utilities.buildReviews(reviews, accountId) // ✅ FIXED variable name
+    const reviewContent = await utilities.buildReviews(reviews, accountId)
 
     res.render("account/reviews", {
       title: "My Reviews",
       nav,
       errors: null,
-      reviewContent, // ✅ Matches your EJS
+      reviewContent,
     })
   } catch (error) {
     req.flash("notice", "Sorry, we couldn't load your reviews.")
@@ -254,7 +261,7 @@ async function buildReviewsPage(req, res) {
 
 /* ****************************************
  *  Logout
- * ************************************ */
+ * *************************************** */
 const logout = async (req, res) => {
   res.clearCookie("jwt")
   req.flash("notice", "You have been logged out.")
@@ -263,7 +270,7 @@ const logout = async (req, res) => {
 
 /* ****************************************
  *  Exports
- * ************************************ */
+ * *************************************** */
 module.exports = {
   buildLogin,
   buildRegister,
